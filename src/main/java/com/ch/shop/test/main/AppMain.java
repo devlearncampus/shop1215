@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.ch.shop.config.spring.AppConfig;
 import com.ch.shop.test.food.Cook;
+import com.ch.shop.test.school.Student;
 
 public class AppMain {
 	
@@ -18,10 +19,16 @@ public class AppMain {
 		//따라서 빈 컨테이너라 부른다..
 		AnnotationConfigApplicationContext applicationContext=new AnnotationConfigApplicationContext(AppConfig.class);
 		 
-		Cook cook =(Cook)applicationContext.getBean("cook"); 
+		Cook cook =(Cook)applicationContext.getBean("cook");		
 		cook.makeFood();
 		
 		//학생 객체의 원하는 동작을 시켜 벨리 울리는지 테스트 
+		Student student =(Student)applicationContext.getBean("student");
+		student.gotoSchool();
+		student.study();
+		student.rest();
+		student.haveLunch();
+		student.goHome();
 		
 	}
 }

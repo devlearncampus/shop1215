@@ -6,4 +6,5 @@ public class Bell {
 	public void ding() {
 		System.out.println("딩동댕~~~");
 	}
+	
 }
