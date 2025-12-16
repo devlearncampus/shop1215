@@ -34,8 +34,7 @@ public class MybatisBoardDAO implements BoardDAO {
 
 	@Override
 	public List selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList("Board.selectAll");
 	}
 
 	@Override

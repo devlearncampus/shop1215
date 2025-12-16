@@ -1,5 +1,7 @@
 package com.ch.shop.controller.shop;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,11 +49,15 @@ public class BoardController {
 	@RequestMapping("/board/list")
 	public ModelAndView getList() {
 		//3단계 수행
-		System.out.println("클라이언트의 목록 요청 감지");
+		List list=boardService.selectAll();
 		
-		//4단계: 결과 저장..
-		
-		return null;
+		//4단계: 결과 저장..select문의 경우 저장할 결과가 있다 
+		//현재 컨트롤러에서는 디자인을 담당하면 안되므로, 디자인영역인 View 에서 보여질 결과를 저장해놓자(request객체에)
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list); //jsp 에서 기다리고 있는 키값을 넣어야 함.. 
+		//WEB-INF/views/    board/list     .jsp
+		mav.setViewName("board/list");
+		return mav;
 	}
 	
 	//글쓰기 요청 처리 
@@ -87,6 +93,11 @@ public class BoardController {
 	}
 	
 	//글 상세보기 요청 처리 
+	@RequestMapping("/board/detail")
+	public ModelAndView getDetail() {
+		
+		return null;
+	}
 	
 	//글 수정 요청 처리 
 	
