@@ -3,7 +3,13 @@
 <mapper namespace="Board">
 	
 	<insert id="insert" parameterType="Board">
-		insert int board(title, writer, content) values(#{title}, #{writer}, #{content})
+		insert into board(title, writer, content) values(#{title}, #{writer}, #{content})
 	</insert>
 
+	<select id="selectAll" resultType="Board">
+		select board_id, title, writer, content, regdate, hit 
+		from board order 
+		by board_id desc	
+	</select>
+	
 </mapper>

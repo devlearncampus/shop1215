@@ -1,7 +1,5 @@
 package com.ch.shop.controller.shop;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	
 	@Autowired
-	private BoardService boardService;
+	private BoardService boardService;//DI 준수해야 하므로, 상위객체를 보유 
 	
 	//글쓰기 폼 요청 처리 - jsp가 WEB-INF 밑의 위치하였으므로, 브라우저에서 jsp를 직접 접근할 수 없다..
 	//따라서 아래의 컨트롤러의 메서드에서 /board/write.jsp를 매핑 걸자 
