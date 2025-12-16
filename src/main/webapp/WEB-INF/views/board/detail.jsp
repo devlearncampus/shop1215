@@ -33,7 +33,7 @@ $(()=>{
 	 $("#bt_edit").click(()=>{
 		 if(confirm("수정하시겠어요?")){
 			$("#form1").attr({
-				action:"/board/edit.do",
+				action:"/board/edit",
 				method:"post"
 			});
 			//update board set title=?, writer=?, content=? where board_id=?
@@ -44,7 +44,7 @@ $(()=>{
 	 
 	 $("#bt_del").click(()=>{
 		 if(confirm("삭제하시겠어요? ")){
-			location.href="/board/delete.do?board_id=<%=board.getBoard_id()%>";				 	
+			location.href="/board/delete?board_id=<%=board.getBoard_id()%>";				 	
 		 }
 	 });
 	 

@@ -39,20 +39,27 @@ public class MybatisBoardDAO implements BoardDAO {
 
 	@Override
 	public Board select(int board_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectOne("Board.select", board_id);
 	}
 
 	@Override
-	public void update(Board board) {
-		// TODO Auto-generated method stub
-		
+	public void update(Board board) throws BoardException{
+		try {
+			sqlSessionTemplate.update("Board.update", board);	
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BoardException("수정 실패", e);//일부러 에러 발생시킴 
+		}
 	}
 
 	@Override
-	public void delete(int board_id) {
-		// TODO Auto-generated method stub
-		
+	public void delete(int board_id) throws BoardException{
+		try {
+			sqlSessionTemplate.delete("Board.delete", board_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BoardException("삭제실패", e);
+		}	
 	}
 	
 }

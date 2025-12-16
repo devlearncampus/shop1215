@@ -37,20 +37,17 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Board select(int board_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.select(board_id);
 	}
 
 	@Override
-	public void update(Board board) {
-		// TODO Auto-generated method stub
-		
+	public void update(Board board) throws BoardException{//컨트롤러까지 예외 전달..
+		boardDAO.update(board);		
 	}
 
 	@Override
-	public void delete(int board_id) {
-		// TODO Auto-generated method stub
-		
+	public void delete(int board_id) throws BoardException {
+		boardDAO.delete(board_id);		
 	}
 
 	

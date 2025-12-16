@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -94,16 +98,68 @@ public class BoardController {
 	
 	//글 상세보기 요청 처리 
 	@RequestMapping("/board/detail")
-	public ModelAndView getDetail() {
+	public String getDetail(int board_id, Model model) { //클라이언트가 전송한 파라미터명과 동일해야 매핑해줌 
+		//3단계: 일 시키기 
+		Board board=boardService.select(board_id);
+		model.addAttribute("board", board);//jsp에서의 키값과 일치해야 함 
 		
-		return null;
+		return "board/detail";
 	}
 	
 	//글 수정 요청 처리 
+	@PostMapping("/board/edit")
+	public String edit(Board board, Model model) {
+		
+		log.debug("title is "+board.getTitle());
+		log.debug("writer is "+board.getWriter());
+		log.debug("content is "+board.getContent());
+		log.debug("board_id is "+board.getBoard_id());
+		
+		String viewName=null;
+		
+		try {
+			boardService.update(board);
+			//수정 후 상세요청으로 다시 들어와라!!
+			viewName="redirect:/board/detail?board_id="+board.getBoard_id();
+		} catch (BoardException e) {
+			e.printStackTrace();
+			model.addAttribute("msg", e.getMessage());//에러 정보 저장  
+			viewName="error/result";
+		}		
+		return viewName;
+	}
 	
 	//글 삭제 요청 처리 
-	
+	@GetMapping("/board/delete")
+	public String delete(int board_id){
+		log.debug("삭제 요청시 날아온 파라미터 값은 "+board_id);
+		
+		boardService.delete(board_id);
+		
+		return "redirect:/board/list";
+	}
+
+	/*
+	 * 스프링의 컨트롤러에서는 예외의 발생을 하나의 이벤트로 보고, 이 이벤트를 자동으로 감지하여 
+	 * 에러를 처리할 수 있는 @ExceptionHandler 를 지원해줌 
+	 * */
+	@ExceptionHandler(BoardException.class) //현재 컨트롤러에 명시된 요청을 처리하는 모든 메서드내에서 
+																//BoardException이 발생하면 이를 자동으로 감지하여, 아래의 메서드를 호출해줌
+																//이때 메서드를 호출해주면서, 매개변수로 예외 객체의 인스턴스를 자동으로 넘겨줌..
+	public ModelAndView handle(BoardException e) {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("msg", e.getMessage());//저장
+		mav.setViewName("error/result");
+		return mav;
+	}
 }
+
+
+
+
+
+
 
 
 
