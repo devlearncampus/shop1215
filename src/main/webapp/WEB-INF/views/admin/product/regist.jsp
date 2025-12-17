@@ -1,4 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.ch.shop.dto.TopCategory" %>
+<%
+	List<TopCategory> topList=(List)request.getAttribute("topList");
+	//out.print(topList);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,20 +56,54 @@
         	
 	            <div class="card card-info">
 	              <div class="card-header">
-	                <h3 class="card-title">Quick Example</h3>
+	                <h3 class="card-title">Product Registration</h3>
 	              </div>
 	              <!-- /.card-header -->
 	              <!-- form start -->
 	              <form>
 	                <div class="card-body">
+						
+						<div class="form-group row">
+							<div class="col-md-6">
+		                        <select class="form-control" name="topcategory">
+		                          <%for(TopCategory topCategory : topList){%>
+		                          <option value="<%=topCategory.getTopcategory_id()%>"><%=topCategory.getTopname() %></option>
+		                          <%} %>
+		                        </select>
+	                      	</div>
+	                      	
+							<div class="col-md-6">
+		                        <select class="form-control">
+		                          <option>option 1</option>
+		                        </select>
+	                      	</div>
+						</div>	                      		
+                      							
 	                  <div class="form-group">
-	                    <label for="exampleInputEmail1">Email address</label>
-	                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+	                    <input type="text" class="form-control"  name="product_name" placeholder="상품명 ">
 	                  </div>
+	                  
 	                  <div class="form-group">
-	                    <label for="exampleInputPassword1">Password</label>
-	                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+	                    <input type="text" class="form-control"  name="brand" placeholder="브랜드 ">
 	                  </div>
+	                  
+	                  <div class="form-group">
+	                    <input type="number" class="form-control"  name="price" placeholder="가격(숫자로 입력) ">
+	                  </div>
+	                  
+	                  <div class="form-group">
+	                    <input type="number" class="form-control"  name="discount" placeholder="할인가(숫자로 입력) ">
+	                  </div>
+	                  
+	                  <div class="form-group">
+	                    <input type="text" class="form-control"  name="introduce" placeholder="간단소개">
+	                  </div>
+	                  
+	                  <div class="form-group">
+	                    <textarea id="summernote" class="form-control"  name="detail" placeholder="간단소개"></textarea>
+	                  </div>
+
+	                  
 	                  <div class="form-group">
 	                    <label for="exampleInputFile">File input</label>
 	                    <div class="input-group">
@@ -76,10 +116,8 @@
 	                      </div>
 	                    </div>
 	                  </div>
-	                  <div class="form-check">
-	                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-	                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-	                  </div>
+	                  
+	           
 	                </div>
 	                <!-- /.card-body -->
 	
@@ -105,6 +143,49 @@
 </div>
 <!-- ./wrapper -->
 	<%@ include file="../inc/footer_link.jsp" %>
+	<script>
+		
+	function getSubCategory(){
+		//JQuery의 비동기통신 
+		$.ajax({
+			url:"/admin/subcategory/list?topcategory_id="+$("select[name='topcategory']").val() ,
+			method:"GET", 
+			
+			//요청 후 서버에서 응답이 도착했을때 동작할 속성및 콜백함수 정의
+			//서버의 응답이 200 번대 이면 아래의 success에 명시된익명함수가 동작하고,
+			//result :서버에 보낸 데이터, status 서버의 상태, xhr XMLHttpRequest객체 
+			success:function(result, status, xhr ){
+				
+			},
+			//서버의 응답이 300번대 이상이면, 즉 문제가 있을 경우 error속성에 명시된 익명함수가 동작함 
+			error:function(xhr, status, err){
+				
+			}
+				
+		});
+	}
 	
+	$(()=>{
+		$("#summernote").summernote();
+		
+		//상위카테고리의 select 상자의 값을 변경할때, 비동기방식으로 즉 새로고침 없이 하위 카테고리를 출력해주면 
+		//유저들이 불편함을 겪지 않게 된다..
+		//지금까지는 js 순수 코드를 이용하여 비동기통신을 수행했지만, 이번 프로그램에서는 Jquery가 지원하는 비동기통신 방법을 써보자
+		$("select[name='topcategory']").change(()=>{
+			getSubCategory();
+		});
+	});
+	</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
