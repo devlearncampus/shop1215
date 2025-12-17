@@ -14,6 +14,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.ch.shop.model.board.MybatisBoardDAO;
@@ -35,7 +37,7 @@ import com.ch.shop.model.board.BoardServiceImpl;
 //MVC에서의 DAO 는 @Service 를 붙임 
 //MVC에서의 특정 분류가 딱히 없음에도 자동으로 올리고 싶다면 @Component
 @ComponentScan(basePackages = {"com.ch.shop.controller","com.ch.shop.model"})
-public class UserWebConfig {
+public class UserWebConfig extends WebMvcConfigurerAdapter{
 	 
 	//DispatcherServlet이 하위 컨트롤러로 부터 반환받은 결과 페이지에 대한 정보는 사실 완전한 JSP경로가 아니므로, 
 	//이를 해석할 수 있는 자인 ViewResolver에게 맡겨야 하는데, 이 ViewResolver 중  유달리 접두어와 접미어 방식을 이해하는 
@@ -113,7 +115,26 @@ public class UserWebConfig {
 	
 
 	//스프링프레임웍을 지배하는 개발원리 중 하나인 DI를 구현하려면 개발자는 사용할 객체들을 미리 빈으로 등록해야 한다..
+	
+	
+	//DispatcherServlet은 컨트롤러에 대한 매핑만 수행하면 되며, 정적자원(css, js, html, imgage 등)에 대해서는 직접 처리하지 
+	//않게 하기 
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		
+		//registry.addResourceHandler("브라우저로 접근할 주소").addResourceLocations("웹애플리케이션을 기준으로 실제 정적자원이 잇는 우치")
+		registry.addResourceHandler("/static/**").addResourceLocations("/resources/");
+	}
 }
+
+
+
+
+
+
+
+
+
 
 
 
