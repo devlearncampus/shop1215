@@ -31,7 +31,6 @@ import com.ch.shop.model.board.BoardServiceImpl;
 */
 @Configuration //단지 xml 을 대신한 설정용 클래스에 불과해!!
 @EnableWebMvc //필수 설정( 스프링이 지원하는 MVC 프레임워크를 사용하기 위한 어노테이션) 
-
 //일일이 빈으로 등록할 필요가 없는 많이 알려진 빈들을 가리켜
 //스프링에서는 컴포넌트라  부른다. 또한 이 컴포넌트들은 
 //패키지 위치만 설정해놓으면 스프링이 알아서 찾아내서 (검색)

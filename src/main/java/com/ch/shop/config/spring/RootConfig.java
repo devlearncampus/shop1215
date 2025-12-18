@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 //모든 서블릿이 접근할 수 있는 객체인 ServletContext 수준에서의 스프링컨테이너가 이 클래스를  읽어들여 빈들의 인스턴스를 관리해야 한다..
 @Configuration //xml을 대신할꺼야!!
 @ComponentScan(basePackages = {"com.ch.shop.model"})
-public class RooConfig {
+public class RootConfig {
 
 	/*
 	  스프링이 MVC 프레임워크 중 컨트롤러 영역만을 지원하는 것이 아니라, 데이터베이스 관련 제어도 지원하므로, 
