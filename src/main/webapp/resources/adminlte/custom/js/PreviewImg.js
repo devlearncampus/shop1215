@@ -55,7 +55,6 @@ class PreviewImg{
 		//이유? 제거된 최종 결과를 결국 서버로 전송할 것이므로, 화면에서 제거햇다면 원본 배열도 함께 제거해야 한다 
 		selectedFile.splice(1, selectedFile.indexOf(this.file));
 	}
-	
 }
 
 
