@@ -284,6 +284,7 @@
 		for(let i=0; i<selectedFile.length;i++){
 			formData.append("photo", selectedFile[i] );
 		}
+		formData.append("subCategory.subcategory_id", $("select[name='subcategory']").val() );
 		
 		//비동기 요청이기 때문에 JQuery Ajax 사용하기 
 		$.ajax({
