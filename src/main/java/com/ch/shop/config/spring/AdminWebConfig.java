@@ -1,29 +1,11 @@
 package com.ch.shop.config.spring;
 
-import java.util.List;
-
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jndi.JndiTemplate;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
-import com.ch.shop.model.board.MybatisBoardDAO;
-import com.ch.shop.model.board.BoardServiceImpl;
 
 /*
  이 클래스는 로직을 작성하기 위함이 아니라, 애플리케이션에서 사용할 빈(객체)들 및 그들간의 관계(weaving)를 명시하기 위한
@@ -42,7 +24,12 @@ import com.ch.shop.model.board.BoardServiceImpl;
 @ComponentScan(basePackages = {"com.ch.shop.controller.admin"})
 public class AdminWebConfig extends WebMvcConfigurerAdapter{
 
-	//스프링프레임웍을 지배하는 개발원리 중 하나인 DI를 구현하려면 개발자는 사용할 객체들을 미리 빈으로 등록해야 한다..
+	/*아파치 파일 업로드 컴포넌트를 빈으로 등록*/
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		return resolver;
+	}
 	
 }
 
