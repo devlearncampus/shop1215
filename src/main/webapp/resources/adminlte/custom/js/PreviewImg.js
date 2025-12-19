@@ -36,7 +36,7 @@ class PreviewImg{
 		//x자에 이벤트 연결 
 		this.header.addEventListener("click", (e)=>{
 			console.log("지울꺼야");
-			e.preventDefault();
+			
 		});
 	}	
 	

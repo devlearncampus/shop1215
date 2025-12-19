@@ -219,6 +219,21 @@
 		
 	}
 	
+	
+	//JQuery가 지원하는 ajax 기술인 Jquery ajax 를 활용하여 비동기로 가져오기 
+	function getColorList(){
+		$.ajax({
+			url:"/admin/color/list",
+			method:"",
+			success:function(result, status, xhr){
+				
+			},
+			error:function(xhr, status, err){
+				
+			}
+		});
+	}
+	
 	$(()=>{
 		$("#summernote").summernote();
 		
@@ -232,6 +247,12 @@
 		$("select[name='topcategory']").change(()=>{
 			getSubCategory();
 		});
+		
+		//색상을 비동기로 가져오기
+		getColorList();		
+		
+		//사이즈를 비동기로 가져오기 
+		
 		
 		//유저가 이미지 컴포넌트에서 이미지를 변경할때를 처리하는 이벤트 연결 
 		$("#product-img").change((e)=>{
