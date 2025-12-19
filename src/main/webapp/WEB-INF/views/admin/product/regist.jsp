@@ -85,6 +85,16 @@
 	                    <input type="number" class="form-control"  name="discount" placeholder="할인가(숫자로 입력) ">
 	                  </div>
 	                  
+					<div class="form-group row">
+						<div class="col-md-6">
+							<select multiple class="form-control" name="color"></select>
+						</div>
+						                	
+						<div class="col-md-6">
+							<select multiple class="form-control" name="size"></select>
+						</div>
+					</div>
+	                  
 	                  <div class="form-group">
 	                    <input type="text" class="form-control"  name="introduce" placeholder="간단소개">
 	                  </div>

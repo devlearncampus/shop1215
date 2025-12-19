@@ -32,6 +32,25 @@ class PreviewImg{
 		this.wrapper.appendChild(this.header);
 		this.wrapper.appendChild(this.img);
 		this.container.appendChild(this.wrapper);
+		
+		//x자에 이벤트 연결 
+		this.header.addEventListener("click", (e)=>{
+			console.log("지울꺼야");
+			e.preventDefault();
+		});
 	}	
 	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
