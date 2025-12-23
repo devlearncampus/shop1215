@@ -3,7 +3,7 @@
 <mapper namespace="ProductSize">
 
 	<insert id="insert" parameterType="ProductSize">
-		insert int product_size(product_id, size_id) 
+		insert into product_size(product_id, size_id) 
 		values(#{product.product_id }, #{ size.size_id  })
 	</insert>
 	

@@ -1,5 +1,7 @@
 package com.ch.shop.model.product;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,6 +136,12 @@ public class ProductServiceImpl implements ProductService{
 		String dirName= rootDir+"/p"+product.getProduct_id(); //C:/shopdata/product/p23
 		
 		fileManager.remove(dirName);
+	}
+
+
+	@Override
+	public List getList() {
+		return productDAO.selectAll();
 	}
 	
 }

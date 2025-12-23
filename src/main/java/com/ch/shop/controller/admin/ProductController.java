@@ -130,10 +130,21 @@ public class ProductController {
 		return body;
 	}
 	
-	//상품 목록 요청 처리 
+	//상품 목록 페이지 요청 처리 
 	@GetMapping("/product/list")
 	public String getListPage() {
 		return "admin/product/list";
+	}
+	
+	//비동기 상품 목록 요청 처리 
+	@GetMapping("/product/async/list") // http://localhost:8888/admin/product/async/list
+	@ResponseBody //@ResponseBody를 명시하면 DispatcherServlet 이 응답 결과를 ViewResolver에게 의뢰하지 않음
+								//결과를 JSP로 보여줄 일이 없는 비동기 요청인 경우 사용함 
+	public List<Product> getList(Model model) {		 
+		List productList=productService.getList();//3단계: 모델에 일시키기
+		//별도의 디자인 페이지에서 결과를 보여주는 방식이 아니라, 데이터를 JSON 문자열로 응답해버리는 처리를 해야 하므로 
+		//4단계는 생략해야 한다!!
+		return productList;
 	}
 	
 	

@@ -311,13 +311,13 @@
 				//그러기 위해서는 문자열을 --> 객체로   JSON.parse() 로 처리 
 				//let obj=JSON.parse(result);
 				//console.log(result);
-				alert(result.message);	//"{ "messagse" :"상품등록"}"		
+				alert("success : "+result.message);	//"{ "messagse" :"상품등록"}"		
 			},
 			
 			//서버측에서 응답한 응답 코드가 에러인 경우 (300 이상인 경우 아래의 error속성에 명시된 콜백함 수 호출)
 			error:function(xhr, status, err){
 				let obj=JSON.parse(xhr.responseText);
-				alert(xhr.responseText.message);
+				alert("error : "+obj.message);
 				//console.log(xhr.responseText, xhr.responseText.length);
 			}
 			
