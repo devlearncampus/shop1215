@@ -147,7 +147,7 @@ public class ProductController {
 		//예외가 발생하면, 찌꺼기 파일을 삭제하자
 		//productService.cancelUpload(Product ); //23
 		Map<String, String> body = new HashMap<>();
-		body.put("messagse", "등록실패");
+		body.put("message", "등록실패");
 		
 		//클라이언트에게 응답코드를 보내지 않으면, 클라이언트는 성공이라고 생각함 
 		
