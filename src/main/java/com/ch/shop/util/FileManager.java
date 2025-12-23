@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ch.shop.exception.DirectoryException;
 import com.ch.shop.exception.UploadException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
   이 클래스의 정의목적?  
   기존 코드에서는 컨트롤러가 업로드를 처리하고 있었으므로, 문제였음 
@@ -16,6 +18,7 @@ import com.ch.shop.exception.UploadException;
 */
 @Component //스프링은 @Controller, @Service, @Repository 외에, 개발자가 정의한 객체도 자동으로 ComponentScan의 대상이
 					//될 수 잇는데, 이때 개발자가 정의한 객체를 자동으로 빈으로 등록하면 @Component로 선언하면 된다..
+@Slf4j
 public class FileManager {
 
 	/*--------------------------------------------------
@@ -73,8 +76,13 @@ public class FileManager {
 			if(files !=null) {//자식이 존재한다면, 즉 상품 이미지가 존재한다면..
 				for(File file  : files) {
 					boolean result=file.delete();
-					
+					if(!result)log.debug(file.getName()+"파일 삭제 실패");
 				}
+			}
+			
+			//위에서 디렉토리 안의 자식 파일들을 모두 삭제했으므로, 디렉토리를 삭제하자
+			if(directory.delete()==false) {
+				log.debug("디렉토리 삭제 실패 "+directory.getAbsolutePath());//디렉토리의 풀 경로 기록하기  
 			}
 		}
 	}

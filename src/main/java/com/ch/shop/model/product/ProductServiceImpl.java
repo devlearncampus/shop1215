@@ -131,11 +131,10 @@ public class ProductServiceImpl implements ProductService{
 		//모든 os에서는 디렉토리안에 파일이 존재할 경우, 바로 디렉토리 삭제를 금지하고 있다..
 		//따라서 지금부터 삭제대상이 되는 디렉토리 안에 파일이 있다면, 그 파일들을 먼저 제거하고 나서 
 		//디렉토리 삭제 업무를 진행해야 한다..
+		String dirName= rootDir+"/p"+product.getProduct_id(); //C:/shopdata/product/p23
 		
-		
+		fileManager.remove(dirName);
 	}
-	
-	
 	
 }
 

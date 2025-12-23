@@ -1,21 +1,29 @@
 package com.ch.shop.controller.admin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ch.shop.dto.Color;
 import com.ch.shop.dto.Product;
 import com.ch.shop.dto.Size;
+import com.ch.shop.exception.DirectoryException;
+import com.ch.shop.exception.ProductColorException;
+import com.ch.shop.exception.ProductException;
+import com.ch.shop.exception.ProductImgException;
+import com.ch.shop.exception.ProductSizeException;
+import com.ch.shop.exception.UploadException;
 import com.ch.shop.model.product.ProductService;
 import com.ch.shop.model.topcategory.TopCategoryService;
 
@@ -54,8 +62,8 @@ public class ProductController {
 	 */
 	@PostMapping("/product/regist")
 	@ResponseBody	
-	//파라미터 중 DTO와  일치하지 않아, 자동매핑이 되지 않을 경우, 개발자가 수동으로 직접 나서면 된다..
-	public String regist(Product product, int[] color, int[] size) {
+	//파라미터 중 DTO와  일치하지 않아, 자동매핑이 되지 않을 경우, 개발자가 수동으로 직접 나서면 된다.
+	public  Map<String, String>  regist(Product product, int[] color, int[] size) {
 		//매개변수로 지정된 객체와 , html문서의 폼에 지정된 파라미터명이 일치한다면 자동 매핑이 이루어짐
 		log.debug("선택하신 하위 카테고리는 "+product.getSubCategory().getSubcategory_id());
 		log.debug("상품명"+product.getProduct_name());
@@ -94,10 +102,59 @@ public class ProductController {
 		 * 상품 등록이란 논리적 업무1개 단위 안에(product, product_img, product_size, product_color 까지 4개의 업무가 포함됨)
 		 * 하지만, 컨트롤러는 4개의 업무로 이루어져 있다는 사실을 몰라야 한다..(대신 서비스가 알아야 한다) 
 		 -------------------------------------------------------------------*/
-		productService.regist(product);
+		try {
+			productService.regist(product);
+		} catch (Exception e) {
+			productService.cancelUpload(product);
+			e.printStackTrace();
+			throw e;
+		}
 		
-		return "ok";
+		//StringBuffer sb = new StringBuffer();
+		/*
+
+		{
+			"message" : "상품등록"
+		} 
+		 */
+		//sb.append("{");
+		//sb.append("\"message\" : \"상품등록\"");
+		//sb.append("}");
+		
+		//JSON 표기를 자바로 표현하면 결국 Map 이다 
+		//따라서 응답정보를 만들때, 개발자가 일일이 JSON문자열을 생성하면 효율성이 떨어지므로, 
+		//jackson 라이브러리를 이용한 자바 객체의 반환으로 처리를 좀더 효율적으로 하자 
+		Map<String, String> body = new HashMap<>();
+		body.put("message", "상품등록 성공");
+		
+		return body;
 	}
+	
+	//상품 목록 요청 처리 
+	@GetMapping("/product/list")
+	public String getListPage() {
+		return "admin/product/list";
+	}
+	
+	
+	//스프링에서는 컨트롤러의 요청 처리 메서드들 중 예외가 발생할 경우, @ExceptionHandler가 명시된 메서드가
+	//자동으로 호출된다. 
+	@ExceptionHandler({ProductException.class, UploadException.class, DirectoryException.class, ProductColorException.class, ProductSizeException.class, ProductImgException.class})
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> handle(Exception e) {
+		log.debug("상품 등록시 예외가 발생하여, handler 메서드가 호출됨");
+		
+		//예외가 발생하면, 찌꺼기 파일을 삭제하자
+		//productService.cancelUpload(Product ); //23
+		Map<String, String> body = new HashMap<>();
+		body.put("messagse", "등록실패");
+		
+		//클라이언트에게 응답코드를 보내지 않으면, 클라이언트는 성공이라고 생각함 
+		
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+	}
+	
+	
 }
 
 

@@ -30,7 +30,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">상품등록</h1>
+            <h1 class="m-0">상품 목록</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -49,89 +49,70 @@
         <!-- 메인 컨텐츠 시작 -->
         <div class="row">
         	<div class="col-md-12">
-        	
-	            <div class="card card-info">
+				<!-- 상품 목록 시작 -->
+				<div class="card">
 	              <div class="card-header">
-	                <h3 class="card-title">Product Registration</h3>
-	              </div>
-	              <!-- /.card-header -->
-	              <!-- form start -->
-	              <form id="product-form">
-	                <div class="card-body">
-						
-						<div class="form-group row">
-							<div class="col-md-6">
-		                        <select class="form-control" name="topcategory"></select>
-	                      	</div>
-	                      	
-							<div class="col-md-6">
-		                        <select class="form-control" name="subcategory"></select>
-	                      	</div>
-						</div>	                      		
-                      							
-	                  <div class="form-group">
-	                    <input type="text" class="form-control"  name="product_name" placeholder="상품명 ">
-	                  </div>
-	                  
-	                  <div class="form-group">
-	                    <input type="text" class="form-control"  name="brand" placeholder="브랜드 ">
-	                  </div>
-	                  
-	                  <div class="form-group">
-	                    <input type="number" class="form-control"  name="price" placeholder="가격(숫자로 입력) ">
-	                  </div>
-	                  
-	                  <div class="form-group">
-	                    <input type="number" class="form-control"  name="discount" placeholder="할인가(숫자로 입력) ">
-	                  </div>
-	                  
-					<div class="form-group row">
-						<div class="col-md-6">
-							<select multiple class="form-control" name="color"></select>
-						</div>
-						                	
-						<div class="col-md-6">
-							<select multiple class="form-control" name="size"></select>
-						</div>
-					</div>
-	                  
-	                  <div class="form-group">
-	                    <input type="text" class="form-control"  name="introduce" placeholder="간단소개">
-	                  </div>
-	                  
-	                  <div class="form-group">
-	                    <textarea id="summernote" class="form-control"  name="detail" placeholder="간단소개"></textarea>
-	                  </div>
-
-	                  
-	                  <div class="form-group">
-	                    <label for="exampleInputFile">File input</label>
-	                    <div class="input-group">
-	                      <div class="custom-file">
-	                        <input type="file" class="custom-file-input" id="product-img" multiple>
-	                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-	                      </div>
-	                      <div class="input-group-append">
-	                        <span class="input-group-text">Upload</span>
-	                      </div>
+	                <h3 class="card-title">Responsive Hover Table</h3>
+	
+	                <div class="card-tools">
+	                  <div class="input-group input-group-sm" style="width: 150px;">
+	                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+	
+	                    <div class="input-group-append">
+	                      <button type="submit" class="btn btn-default">
+	                        <i class="fas fa-search"></i>
+	                      </button>
 	                    </div>
 	                  </div>
-	                  
-	                  <div class="form-group row">
-	                  	<div class="col-md-12" id="product-preview"></div>
-	                  </div>
-	                  
-	           
 	                </div>
-	                <!-- /.card-body -->
-	
-	                <div class="card-footer">
-	                  <button type="button" class="btn btn-info">Submit</button>
-	                  <button type="button" class="btn btn-info">상품목록</button>
-	                </div>
-	              </form>
-	            </div>
-        	
+	              </div>
+	              <!-- /.card-header -->
+	              <div class="card-body table-responsive p-0">
+	                <table class="table table-hover text-nowrap">
+	                  <thead>
+	                    <tr>
+	                      <th>ID</th>
+	                      <th>User</th>
+	                      <th>Date</th>
+	                      <th>Status</th>
+	                      <th>Reason</th>
+	                    </tr>
+	                  </thead>
+	                  <tbody>
+	                    <tr>
+	                      <td>183</td>
+	                      <td>John Doe</td>
+	                      <td>11-7-2014</td>
+	                      <td><span class="tag tag-success">Approved</span></td>
+	                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    </tr>
+	                    <tr>
+	                      <td>219</td>
+	                      <td>Alexander Pierce</td>
+	                      <td>11-7-2014</td>
+	                      <td><span class="tag tag-warning">Pending</span></td>
+	                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    </tr>
+	                    <tr>
+	                      <td>657</td>
+	                      <td>Bob Doe</td>
+	                      <td>11-7-2014</td>
+	                      <td><span class="tag tag-primary">Approved</span></td>
+	                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    </tr>
+	                    <tr>
+	                      <td>175</td>
+	                      <td>Mike Doe</td>
+	                      <td>11-7-2014</td>
+	                      <td><span class="tag tag-danger">Denied</span></td>
+	                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+	                    </tr>
+	                  </tbody>
+	                </table>
+	              </div>
+	              <!-- /.card-body -->
+	            </div>				
+				<!-- 상품 목록 끝 -->
         	</div>
         </div>
         <!-- 메인 컨텐츠 끝 -->
@@ -305,20 +286,11 @@
 				못하게 금지..				
 			*/
 			contentType:false,
-			//서버의 응답 코드가 200(성공)일 경우 아래의  success속성에 명시된 콜백함수가 동작함 
 			success:function(result, status, xhr){
-				//서버측에서 응답한 데이터 형식이 순수 문자열일 경우, js의 객체리터럴로 변환해야, 점찍고 쓸 수 있다..
-				//그러기 위해서는 문자열을 --> 객체로   JSON.parse() 로 처리 
-				//let obj=JSON.parse(result);
-				//console.log(result);
-				alert(result.message);	//"{ "messagse" :"상품등록"}"		
+				
 			},
-			
-			//서버측에서 응답한 응답 코드가 에러인 경우 (300 이상인 경우 아래의 error속성에 명시된 콜백함 수 호출)
 			error:function(xhr, status, err){
-				let obj=JSON.parse(xhr.responseText);
-				alert(xhr.responseText.message);
-				//console.log(xhr.responseText, xhr.responseText.length);
+				
 			}
 			
 		});
