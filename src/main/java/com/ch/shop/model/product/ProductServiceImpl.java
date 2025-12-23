@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ch.shop.dto.Color;
 import com.ch.shop.dto.Product;
 import com.ch.shop.dto.ProductColor;
+import com.ch.shop.dto.ProductSize;
+import com.ch.shop.dto.Size;
 import com.ch.shop.exception.ProductException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,9 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductColorDAO productColorDAO;
 	
+	@Autowired
+	private ProductSizeDAO productSizeDAO;
+	
 	@Override
 	//등록 시 발생하는 예외를 여기서 잡아버리면, 서비스 영역에서 예외는 원인이 소멸되어버림...
 	//우리의 목적은 개발자가 아닌 일반 사용자까지 예외 원인을 전달하는게 목적이므로, 컨트롤러에게까지 예외를 전달해야 한다..
@@ -54,6 +59,19 @@ public class ProductServiceImpl implements ProductService{
 			productColor.setColor(color);
 			productColorDAO.insert(productColor);
 		}
+		
+		/*------------------------------------------------
+		세부 업무3) ProductSize 테이블에 insert 하기
+		------------------------------------------------*/
+		for( Size size : product.getSizeList()) {
+			
+			ProductSize productSize = new ProductSize();
+			productSize.setProduct(product);//어떤 상품에 대해?
+			productSize.setSize(size); //어떤 색상을?
+			
+			productSizeDAO.insert(productSize);
+		}
+		
 	}
 	
 }
