@@ -3,6 +3,7 @@ package com.ch.shop.model.product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ch.shop.dto.Color;
 import com.ch.shop.dto.Product;
@@ -10,6 +11,7 @@ import com.ch.shop.dto.ProductColor;
 import com.ch.shop.dto.ProductSize;
 import com.ch.shop.dto.Size;
 import com.ch.shop.exception.ProductException;
+import com.ch.shop.util.FileManager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +37,14 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private ProductSizeDAO productSizeDAO;
+	
+	@Autowired
+	private FileManager fileManager;
+	
+	//쇼핑몰의 상품이 등록될 외부 저장소의 루트 경로, 앞으로상품이 등록되면 상품의 pk값을 따와서 디렉토리를 생성하고, 그 안에
+	//파일들을 배치할 예정  예) 상품의 pk값이 23 일 경우  C:/shopdata/product/p23/2738912738219.jpg 
+	private String rootDir="C:/shopdata/product";
+	
 	
 	@Override
 	//등록 시 발생하는 예외를 여기서 잡아버리면, 서비스 영역에서 예외는 원인이 소멸되어버림...
@@ -72,6 +82,24 @@ public class ProductServiceImpl implements ProductService{
 			productSizeDAO.insert(productSize);
 		}
 		
+		/*------------------------------------------------
+		세부 업무4) 파일 저장 (트랜잭션의 대상이 되지 않지만, 크게 보면 등록업무의 일부이므로 포함시켜버리자)
+		------------------------------------------------*/
+		//파일의 수가 여러개일 경우, 파일저장 과정에서 만일 에러가 발생하면, 데이터베이스는 Service에 의해 자동으로 롤백처리되지만
+		//파일에 대해서는 스프링이 관여하지 않는다.따라서 실패 시 파일의 찌꺼기가 남게된다..
+		//해결책? 개발자가 트랜잭션 실패 시, 파일을 직접 제거해야 함...(디렉토리 안에 파일들을 저장하면, 디렉토리를 제거하면 업무가 보다 깔끔함)
+		
+		//C:/shopdata/product/p23
+		String dirName=rootDir+"/p"+product.getProduct_id();
+		fileManager.makeDirectory(dirName);
+		
+		
+		//사용자가 업로드한 파일 수만큼 반복하면서, FileManager의 save()를 호출하자
+		/*
+		for(MultipartFile mf : product.getPhoto()) {			
+			fileManager.save(mf, "", null);
+		}
+		*/
 	}
 	
 }
