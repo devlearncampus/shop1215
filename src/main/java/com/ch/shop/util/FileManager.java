@@ -1,7 +1,6 @@
 package com.ch.shop.util;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,7 +58,35 @@ public class FileManager {
 		} 
 	}
 	 
+	/*--------------------------------------------------
+	파일 삭제   :  이 메서드 호출 시, 제거 대상이 되는 디렉토리의 경로를 넘겨야 한다..
+	--------------------------------------------------*/
+	public void remove(String path) {
+		//1) 지정된 경로에 파일들이 존재하는지 조사 
+		File directory = new File(path);
+		
+		//디렉토리인지 부터 판단하고, 만약 디렉토리임이 검증된 경우에 조사...
+		if(directory.exists() && directory.isDirectory()) {//100% 확실히 디렉토리로 평가가 된다면..
+			//소속된 자식이 구하기 
+			File[] files=directory.listFiles(); // 이 디렉토리 하위에 존재하는 디렉토리나, 파일을 File배열로 반환해줌..
+										// 우리의 경우 상품 사진만 넣었으므로, 디렉토리가 존재할 가능성이 없음
+			if(files !=null) {//자식이 존재한다면, 즉 상품 이미지가 존재한다면..
+				for(File file  : files) {
+					boolean result=file.delete();
+					
+				}
+			}
+		}
+	}
+
 }
+
+
+
+
+
+
+
 
 
 

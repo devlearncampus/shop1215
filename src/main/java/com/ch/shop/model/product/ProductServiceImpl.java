@@ -64,30 +64,9 @@ public class ProductServiceImpl implements ProductService{
 		productDAO.insert(product);
 		log.debug("insert 직후 mybatis의 selectKey 동작 후 product의 product_id값은 "+ product.getProduct_id());
 		
-		/*------------------------------------------------
-		세부 업무2) ProductColor 테이블에 insert 하기
-		------------------------------------------------*/
-		for(Color color : product.getColorList()) {
-			ProductColor productColor = new ProductColor();
-			productColor.setProduct(product);
-			productColor.setColor(color);
-			productColorDAO.insert(productColor);
-		}
 		
 		/*------------------------------------------------
-		세부 업무3) ProductSize 테이블에 insert 하기
-		------------------------------------------------*/
-		for( Size size : product.getSizeList()) {
-			
-			ProductSize productSize = new ProductSize();
-			productSize.setProduct(product);//어떤 상품에 대해?
-			productSize.setSize(size); //어떤 색상을?
-			
-			productSizeDAO.insert(productSize);
-		}
-		
-		/*------------------------------------------------
-		세부 업무4) 파일 저장 (트랜잭션의 대상이 되지 않지만, 크게 보면 등록업무의 일부이므로 포함시켜버리자)
+		세부 업무2) 파일 저장 (트랜잭션의 대상이 되지 않지만, 크게 보면 등록업무의 일부이므로 포함시켜버리자)
 		------------------------------------------------*/
 		//파일의 수가 여러개일 경우, 파일저장 과정에서 만일 에러가 발생하면, 데이터베이스는 Service에 의해 자동으로 롤백처리되지만
 		//파일에 대해서는 스프링이 관여하지 않는다.따라서 실패 시 파일의 찌꺼기가 남게된다..
@@ -111,7 +90,7 @@ public class ProductServiceImpl implements ProductService{
 			fileManager.save(mf, dirName, filename);
 			
 			/*------------------------------------------------
-			세부 업무5) 파일명 insert
+			세부 업무3) 파일명 insert
 			------------------------------------------------*/
 			//생성된 파일명을 db insert !!(여기서 처리하는 이유는? 파일명이 생성되어야 넣을 것이 있으므로..)
 			ProductImg productImg = new ProductImg();
@@ -120,8 +99,43 @@ public class ProductServiceImpl implements ProductService{
 			
 			productImgDAO.insert(productImg);
 		}
-	
+
+		
+		
+		/*------------------------------------------------
+		세부 업무4) ProductColor 테이블에 insert 하기
+		------------------------------------------------*/
+		for(Color color : product.getColorList()) {
+			ProductColor productColor = new ProductColor();
+			productColor.setProduct(product);
+			productColor.setColor(color);
+			productColorDAO.insert(productColor);
+		}
+		
+		/*------------------------------------------------
+		세부 업무5) ProductSize 테이블에 insert 하기
+		------------------------------------------------*/
+		for( Size size : product.getSizeList()) {
+			
+			ProductSize productSize = new ProductSize();
+			productSize.setProduct(product);//어떤 상품에 대해?
+			productSize.setSize(size); //어떤 색상을?
+			
+			productSizeDAO.insert(productSize);
+		}
 	}
+
+
+	@Override
+	public void cancelUpload(Product product) {
+		//모든 os에서는 디렉토리안에 파일이 존재할 경우, 바로 디렉토리 삭제를 금지하고 있다..
+		//따라서 지금부터 삭제대상이 되는 디렉토리 안에 파일이 있다면, 그 파일들을 먼저 제거하고 나서 
+		//디렉토리 삭제 업무를 진행해야 한다..
+		
+		
+	}
+	
+	
 	
 }
 
