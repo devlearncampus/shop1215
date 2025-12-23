@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ch.shop.dto.Color;
 import com.ch.shop.dto.Product;
 import com.ch.shop.dto.ProductColor;
+import com.ch.shop.dto.ProductImg;
 import com.ch.shop.dto.ProductSize;
 import com.ch.shop.dto.Size;
 import com.ch.shop.exception.ProductException;
@@ -40,6 +41,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private FileManager fileManager;
+	
+	@Autowired
+	private ProductImgDAO productImgDAO;
 	
 	//쇼핑몰의 상품이 등록될 외부 저장소의 루트 경로, 앞으로상품이 등록되면 상품의 pk값을 따와서 디렉토리를 생성하고, 그 안에
 	//파일들을 배치할 예정  예) 상품의 pk값이 23 일 경우  C:/shopdata/product/p23/2738912738219.jpg 
@@ -89,17 +93,34 @@ public class ProductServiceImpl implements ProductService{
 		//파일에 대해서는 스프링이 관여하지 않는다.따라서 실패 시 파일의 찌꺼기가 남게된다..
 		//해결책? 개발자가 트랜잭션 실패 시, 파일을 직접 제거해야 함...(디렉토리 안에 파일들을 저장하면, 디렉토리를 제거하면 업무가 보다 깔끔함)
 		
-		//C:/shopdata/product/p23
+		//C:/shopdata/product/p23/237489324729.png
 		String dirName=rootDir+"/p"+product.getProduct_id();
 		fileManager.makeDirectory(dirName);
 		
 		
 		//사용자가 업로드한 파일 수만큼 반복하면서, FileManager의 save()를 호출하자
-		/*
+		
 		for(MultipartFile mf : product.getPhoto()) {			
-			fileManager.save(mf, "", null);
+			
+			//유저가 업로드한 파일명은 무시하고, 개발자의 규칙에 의한 파일명만들기
+			long time=System.currentTimeMillis(); //연월일시분초
+			
+			String filename=time+"."+fileManager.getExtend(mf.getOriginalFilename());
+			log.debug(filename);
+			
+			fileManager.save(mf, dirName, filename);
+			
+			/*------------------------------------------------
+			세부 업무5) 파일명 insert
+			------------------------------------------------*/
+			//생성된 파일명을 db insert !!(여기서 처리하는 이유는? 파일명이 생성되어야 넣을 것이 있으므로..)
+			ProductImg productImg = new ProductImg();
+			productImg.setFilename(filename);
+			productImg.setProduct(product);
+			
+			productImgDAO.insert(productImg);
 		}
-		*/
+	
 	}
 	
 }

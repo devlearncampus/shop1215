@@ -35,6 +35,13 @@ public class FileManager {
 	
 	
 	/*--------------------------------------------------
+	확장자 추출하기, 메서드의 인수로 원하는 경로를 넣으면 알아서 확장자를 반환해주는 메서드  
+	--------------------------------------------------*/
+	public String getExtend(String path) {
+		return path.substring(path.lastIndexOf(".")+1, path.length());
+	}
+	
+	/*--------------------------------------------------
 	원래 파일에 대한 처리는 트랜잭션의 대상이 되지 않는다. 하지만 우리의 경우 상품등록업무에는 파일의 저장도 포함되어 있으므로
 	만약 파일 저장에 실패할 경우, Exception을 서비스객체에 던지면, 서비스는 예외가 발생할 경우 무조건 트랜잭션을 rollback해버리므로
 	이 특징을 이용하자 
@@ -45,6 +52,7 @@ public class FileManager {
 		//임시 디렉토리 또는 메모리상의 파일정보를 이용하여, 실제 디스크에 저장
 		try {
 			mf.transferTo(file);
+			Thread.sleep(10);// 일부러 시간을 지연시킨다..이유? 파일명을 생성하는 밀리세컨드보다 업로드 처리가 더 빠르면, 파일명의 중복
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UploadException("file 저장 실패", e);
