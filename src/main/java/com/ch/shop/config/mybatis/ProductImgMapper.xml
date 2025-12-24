@@ -4,6 +4,6 @@
 
 	<insert id="insert" parameterType="ProductImg">
 		insert into product_img(filename, product_id) values(#{filename}, #{product.product_id})
-	</insert>
+	</insert>		
 	
 </mapper>
